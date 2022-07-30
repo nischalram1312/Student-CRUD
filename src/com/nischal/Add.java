@@ -36,9 +36,12 @@ public class Add {
 		String lastName = sc.next();
 		System.out.println("date(yyyy-mm-dd)");
 		//4
+		//converting java.util.date to java.sql.date is not possible
+		//We take string input, create a date format and parse the string in it
+		//now we create a new object dob of type date and use getTime to store the parsed date in this object 
 		String dt = sc.next();
-//		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-//		Date dob = dateFormat.parse(dt);
+		Date format = new SimpleDateFormat("yyyy-mm-dd").parse(dt);
+		java.sql.Date dob = new java.sql.Date(format.getTime());
 		System.out.println("gender(M/F)");
 		//5
 		char gender = sc.next().charAt(0);
@@ -54,7 +57,8 @@ public class Add {
 		ps.setInt(1, id);
 		ps.setString(2, firstName);
 		ps.setString(3, lastName);
-		ps.setString(4, dt);
+		ps.setDate(4,  dob);
+		//MySQL cannot take input of char so we convert it to string 
 		ps.setString(5, String.valueOf(gender));
 		ps.setFloat(6, gpa);
 		ps.setString(7, email);
@@ -62,10 +66,11 @@ public class Add {
 		//checking prepared statement
 		System.out.println(ps);
 		
-		//
+		//executing the query with custom inputs
 		ps.executeUpdate();			
 		
-		
+		//closing the connection
+		con.close();
 		
 	
 	
