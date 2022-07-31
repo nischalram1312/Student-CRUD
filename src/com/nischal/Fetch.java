@@ -60,6 +60,8 @@ public class Fetch {
 		
 		student.print();
 		
+		con.close();
+		
 	}
 
 }
